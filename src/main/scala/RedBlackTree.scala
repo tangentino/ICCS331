@@ -1,3 +1,7 @@
+// ICCS331 Project : Red Black Tree Scala Implementation
+// *****************************************************
+// Naran Kongpithaksilp (Tan) - #6180233
+
 object RedBlackTree extends App {
 
   sealed abstract class Color

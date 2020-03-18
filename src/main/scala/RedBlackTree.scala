@@ -20,5 +20,11 @@ object RedBlackTree extends App {
     case Node(Black(),_,_,_) => true
     case _ => false
   }
+  
+  // To-do List:
+  // - Implement function that inserts node into tree
+  // - Tree has to be rebalanced after inserting : recoloring + rotation
+  // - Implement function that deletes node
+  // - Don't know what else 
 
 }

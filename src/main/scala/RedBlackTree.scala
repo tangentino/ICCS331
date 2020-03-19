@@ -29,6 +29,6 @@ object RedBlackTree extends App {
   // - Implement function that inserts node into tree
   // - Tree has to be rebalanced after inserting : recoloring + rotation
   // - Implement function that deletes node
-  // - Don't know what else 
+  // - Add another function that takes a root or a subtree and return a node that breaks the RB-tree invariant or None if the root/subtree is a RB-tree
 
 }

@@ -96,8 +96,8 @@ object RedBlackTree extends App {
   }
   
   // To-do List:
-  // - Implement function that inserts node into tree
-  // - Tree has to be rebalanced after inserting : recoloring + rotation
+  // - I̶̶̶m̶̶̶p̶̶̶l̶̶̶e̶̶̶m̶̶̶e̶̶̶n̶̶̶t̶̶̶ ̶̶̶f̶̶̶u̶̶̶n̶̶̶c̶̶̶t̶̶̶i̶̶̶o̶̶̶n̶̶̶ ̶̶̶t̶̶̶h̶̶̶a̶̶̶t̶̶̶ ̶̶̶i̶̶̶n̶̶̶s̶̶̶e̶̶̶r̶̶̶t̶̶̶s̶̶̶ ̶̶̶n̶̶̶o̶̶̶d̶̶̶e̶̶̶ ̶̶̶i̶̶̶n̶̶̶t̶̶̶o̶̶̶ ̶̶̶t̶̶̶r̶̶̶e̶̶̶e̶̶̶
+  // - T̶r̶e̶e̶ ̶h̶a̶s̶ ̶t̶o̶ ̶b̶e̶ ̶r̶e̶b̶a̶l̶a̶n̶c̶e̶d̶ ̶a̶f̶t̶e̶r̶ ̶i̶n̶s̶e̶r̶t̶i̶n̶g̶ ̶:̶ ̶r̶e̶c̶o̶l̶o̶r̶i̶n̶g̶ ̶+̶ ̶r̶o̶t̶a̶t̶i̶o̶n̶
   // - Implement function that deletes node
   // - Add another function that takes a root or a subtree and return a node that breaks the RB-tree invariant or None if the root/subtree is a RB-tree
 

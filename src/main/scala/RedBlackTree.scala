@@ -36,6 +36,7 @@ object RedBlackTree extends App {
     case _ => false
   }
   
+  // NEW ADDITION
   def balance(a: Tree, b: Tree, k: Int, c: Color): Tree = {
     // Takes unbalanced tree and balances to Black(k1) <--- Red(k2) ---> Black(k3)
     Node(c,a,b,k) match {

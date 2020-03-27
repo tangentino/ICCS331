@@ -36,7 +36,40 @@ object RedBlackTree extends App {
     case _ => false
   }
   
-  // NEW ADDITION
+  // NEW ADDITIONS = EVERYTHING BELOW THIS
+  
+  def turnBlack(t: Tree): Tree = {
+    // Turn a tree black
+    t match {
+      case Node(Red(),l,r,k) => Node(Black(),l,r,k)
+      case _ => t
+    }
+  }
+
+  def insert(x: Int,t: Tree): Tree = {
+    // Add a value to a tree
+    
+    def insertHelper(key: Int, tree: Tree): Tree = {
+      tree match {
+        case Empty() =>
+          // If tree is empty then just add the node
+          Node(Red(), Empty(), Empty(), key)
+        case Node(c, l, r, k) =>
+          if (key < k)
+            // It's a binary tree so if the value is small then add it to the left
+            balance(c,insertHelper(key,l),r,k)
+          else if (key > k)
+            // If value is bigger than add to the right
+            balance(c,l,insertHelper(key,r),k)
+          else
+            // Else: do nothing
+            t
+      }
+    }
+    // Root must be black so we blacken the tree every time we add a new value
+    turnBlack(insertHelper(x,t))
+  }
+  
   def balance(a: Tree, b: Tree, k: Int, c: Color): Tree = {
     // Takes unbalanced tree and balances to Black(k1) <--- Red(k2) ---> Black(k3)
     Node(c,a,b,k) match {

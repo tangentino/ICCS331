@@ -129,7 +129,8 @@ object RedBlackTree extends App {
     }
   }
 
-  // TESTS
+// TESTS
+// ********************
 
   // isBlack() and turnBlack() Tests
   val testRed = Node(Red(),testBlack,Empty(),5)

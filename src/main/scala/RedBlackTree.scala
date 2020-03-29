@@ -36,8 +36,6 @@ object RedBlackTree extends App {
     case _ => false
   }
 
-  // NEW ADDITIONS
-
   def blackNodesInPath(t: Tree): Int = t match {
     // Returns number of black nodes on left path of t
     case Empty() => 0
@@ -129,8 +127,7 @@ object RedBlackTree extends App {
     }
   }
 
-// TESTS
-// ********************
+  // TESTS
 
   // isBlack() and turnBlack() Tests
   val testRed = Node(Red(),testBlack,Empty(),5)
@@ -144,7 +141,7 @@ object RedBlackTree extends App {
   assert(size(t1) == 5)
   assert(height(t1) == 3)
   assert(isBlack(t1) == true)
-  println(traverse(t1)) // Should print 1 2 3 4 5 in order
+  println(traverse(t1)) // Should print 1 2 3 4 5 and None (leaf)
   assert(isBalanced(t1) == true)
 
   // Test if it works when inserted out of order
@@ -152,17 +149,23 @@ object RedBlackTree extends App {
   assert(size(t2) == 5)
   assert(height(t2) == 3)
   assert(isBlack(t2) == true)
-  println(traverse(t2)) // Should print 1 2 3 4 5 in order
+  println(traverse(t2)) // Should print 1 2 3 4 5 None
   assert(isBalanced(t2) == true)
 
-  // Another test
+  // More tests
   val t3 = insert(13,insert(8,insert(1,insert(6,insert(11,insert(17,insert(27,insert(22,insert(25,insert(15,Empty()))))))))))
   assert(size(t3) == 10)
   assert(height(t3) == 4)
   assert(isBlack(t3) == true)
-  println(traverse(t3)) // Should print 1 6 8 11 13 15 17 22 25 27
-  assert(blackNodesInPath(t3) == 2)
+  println(traverse(t3)) // Should print 1 6 8 11 13 15 17 22 25 27 None
   assert(isBalanced(t3) == true)
+
+  val t4 = insert(10,insert(7,insert(3,insert(12,insert(17,insert(14,insert(26,insert(38,insert(30,insert(41,insert(47,insert(39,insert(35,insert(36,insert(28,insert(15,insert(16,insert(21,insert(23,insert(19,insert(20,Empty())))))))))))))))))))))
+  assert(size(t4) == 21)
+  assert(height(t4) == 6)
+  assert(isBlack(t4) == true)
+  println(traverse(t4)) // Should print 3 7 10 12 14 15 16 17 19 20 21 23 26 28 30 35 36 38 39 41 47 None
+  assert(isBalanced(t4) == true)
 
   // To-do List:
   // - Add another function that takes a root or a subtree and return a node that breaks the RB-tree invariant or None if the root/subtree is a RB-tree

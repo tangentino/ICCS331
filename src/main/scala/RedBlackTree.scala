@@ -13,31 +13,66 @@ object RedBlackTree extends App {
 
   sealed abstract class Color
   // Color of tree
-    case class Red() extends Color
-    case class Black() extends Color
+  case class Red() extends Color
+  case class Black() extends Color
 
 
   sealed abstract class Tree
   // Tree class
-    case class Empty() extends Tree
-    case class Node(left: Tree, right: Tree, key: Int, color: Color) extends Tree
+  case class Empty() extends Tree
+  case class Node(color: Color, left: Tree, right: Tree, key: Int) extends Tree
 
 
   def size(t: Tree) : Int = t match {
-    // Returns size of tree
+    // Returns total number of nodes
     case Empty() => 0
-    case Node(left,right,key,color) => size(left) + 1 + size(right)
+    case Node(color,left,right,key) => size(left) + 1 + size(right)
   }
 
   def isBlack(t: Tree): Boolean = t match {
     // Returns boolean saying if tree is black
     case Empty() => true
-    case Node(left,right,key,Black()) => true
+    case Node(Black(),left,right,key) => true
     case _ => false
   }
-  
-  // NEW ADDITIONS = EVERYTHING BELOW THIS
-  
+
+  // NEW ADDITIONS
+
+  def blackNodesInPath(t: Tree): Int = t match {
+    // Returns number of black nodes on left path of t
+    case Empty() => 0
+    case Node(Black(),l,r,k) => blackNodesInPath(l) + 1
+    case Node(Red(),l,r,k) => blackNodesInPath(l)
+  }
+
+  def isBalanced(t: Tree): Boolean = t match {
+    // Return boolean saying if the RB Tree is balanced properly
+    case Empty() => true
+    case Node(c,l,r,k) =>
+      // Tree is balanced if every path has the same number of black nodes
+      // isBalanced makes sure that the function checks every node (returns true when it reaches leaf)
+      // Then makes sure that number of black nodes in each path is the same
+      isBalanced(l) && isBalanced(r) && blackNodesInPath(l) == blackNodesInPath(r)
+  }
+
+  def height(t: Tree): Int = t match {
+    // Returns number of nodes in the longest path
+    case Empty() => 0
+    case Node(c,l,r,k) => math.max(height(l),height(r)) + 1
+
+  }
+
+  def traverse(t: Tree): Any = {
+    // Traversal of tree for testing purposes
+    t match {
+      case Empty() => None
+      case Node(c,l,r,k) =>
+        traverse(l)
+        print("%d ".format(k))
+        traverse(r)
+    }
+  }
+
   def turnBlack(t: Tree): Tree = {
     // Turn a tree black
     t match {
@@ -48,7 +83,6 @@ object RedBlackTree extends App {
 
   def insert(x: Int,t: Tree): Tree = {
     // Add a value to a tree
-    
     def insertHelper(key: Int, tree: Tree): Tree = {
       tree match {
         case Empty() =>
@@ -69,8 +103,8 @@ object RedBlackTree extends App {
     // Root must be black so we blacken the tree every time we add a new value
     turnBlack(insertHelper(x,t))
   }
-  
-  def balance(a: Tree, b: Tree, k: Int, c: Color): Tree = {
+
+  def balance(c: Color, a: Tree, b: Tree, k: Int): Tree = {
     // Takes unbalanced tree and balances to Black(k1) <--- Red(k2) ---> Black(k3)
     Node(c,a,b,k) match {
       case Node(Black(),Node(Red(),Node(Red(),a,b,k1),c,k2),d,k3) =>
@@ -94,11 +128,43 @@ object RedBlackTree extends App {
         Node(c,a,b,k)
     }
   }
-  
+
+  // TESTS
+
+  // isBlack() and turnBlack() Tests
+  val testRed = Node(Red(),testBlack,Empty(),5)
+  val testBlack = Node(Black(),Empty(),Empty(),2)
+  assert(isBlack(testRed) == false)
+  assert(isBlack(testBlack) == true)
+  assert(isBlack(turnBlack(testRed)) == true)
+
+  // Test if Red Black Tree actually works
+  val t1 = insert(4,insert(2,insert(1,insert(5,Node(Black(),Empty(),Empty(),3)))))
+  assert(size(t1) == 5)
+  assert(height(t1) == 3)
+  assert(isBlack(t1) == true)
+  println(traverse(t1)) // Should print 1 2 3 4 5 in order
+  assert(isBalanced(t1) == true)
+
+  // Test if it works when inserted out of order
+  val t2 = insert(2,insert(5,insert(3,insert(4,insert(1,Empty())))))
+  assert(size(t2) == 5)
+  assert(height(t2) == 3)
+  assert(isBlack(t2) == true)
+  println(traverse(t2)) // Should print 1 2 3 4 5 in order
+  assert(isBalanced(t2) == true)
+
+  // Another test
+  val t3 = insert(13,insert(8,insert(1,insert(6,insert(11,insert(17,insert(27,insert(22,insert(25,insert(15,Empty()))))))))))
+  assert(size(t3) == 10)
+  assert(height(t3) == 4)
+  assert(isBlack(t3) == true)
+  println(traverse(t3)) // Should print 1 6 8 11 13 15 17 22 25 27
+  assert(blackNodesInPath(t3) == 2)
+  assert(isBalanced(t3) == true)
+
   // To-do List:
-  // - I̶̶̶m̶̶̶p̶̶̶l̶̶̶e̶̶̶m̶̶̶e̶̶̶n̶̶̶t̶̶̶ ̶̶̶f̶̶̶u̶̶̶n̶̶̶c̶̶̶t̶̶̶i̶̶̶o̶̶̶n̶̶̶ ̶̶̶t̶̶̶h̶̶̶a̶̶̶t̶̶̶ ̶̶̶i̶̶̶n̶̶̶s̶̶̶e̶̶̶r̶̶̶t̶̶̶s̶̶̶ ̶̶̶n̶̶̶o̶̶̶d̶̶̶e̶̶̶ ̶̶̶i̶̶̶n̶̶̶t̶̶̶o̶̶̶ ̶̶̶t̶̶̶r̶̶̶e̶̶̶e̶̶̶
-  // - T̶r̶e̶e̶ ̶h̶a̶s̶ ̶t̶o̶ ̶b̶e̶ ̶r̶e̶b̶a̶l̶a̶n̶c̶e̶d̶ ̶a̶f̶t̶e̶r̶ ̶i̶n̶s̶e̶r̶t̶i̶n̶g̶ ̶:̶ ̶r̶e̶c̶o̶l̶o̶r̶i̶n̶g̶ ̶+̶ ̶r̶o̶t̶a̶t̶i̶o̶n̶
-  // - Implement function that deletes node
   // - Add another function that takes a root or a subtree and return a node that breaks the RB-tree invariant or None if the root/subtree is a RB-tree
 
 }
+

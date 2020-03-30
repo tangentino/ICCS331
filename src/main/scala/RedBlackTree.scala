@@ -36,6 +36,16 @@ object RedBlackTree extends App {
     case _ => false
   }
 
+  // NEW ADDITIONS
+  def makeTree(lst: List[Int]): Tree = {
+    // Takes a list of Int and makes a RB tree consisting of all the values in the list
+    def makeTreeHelper(lst: List[Int], ans: Tree): Tree = lst match {
+      case Nil => ans
+      case head::tail => makeTreeHelper(tail,insert(head,ans))
+    }
+    makeTreeHelper(lst,Empty())
+  }
+
   def blackNodesInPath(t: Tree): Int = t match {
     // Returns number of black nodes on left path of t
     case Empty() => 0
@@ -127,8 +137,9 @@ object RedBlackTree extends App {
     }
   }
 
-  // TESTS
-
+  // TEST CASES
+  // ***********************
+  
   // isBlack() and turnBlack() Tests
   val testRed = Node(Red(),testBlack,Empty(),5)
   val testBlack = Node(Black(),Empty(),Empty(),2)
@@ -167,8 +178,26 @@ object RedBlackTree extends App {
   println(traverse(t4)) // Should print 3 7 10 12 14 15 16 17 19 20 21 23 26 28 30 35 36 38 39 41 47 None
   assert(isBalanced(t4) == true)
 
-  // To-do List:
-  // - Add another function that takes a root or a subtree and return a node that breaks the RB-tree invariant or None if the root/subtree is a RB-tree
+  val t5 = makeTree(List(10,7,3,15,12,14,20,19,26,28,35,41,39,47,16,30,23,21,38,36,17))
+  assert(size(t5) == 21)
+  assert(height(t5) == 6)
+  assert(isBlack(t5) == true)
+  println(traverse(t5)) // Should print 3 7 10 12 14 15 16 17 19 20 21 23 26 28 30 35 36 38 39 41 47 None
+  assert(isBalanced(t5) == true)
+
+  val t6 = makeTree(List(1,11,15,13,6,8,27,17,25,22))
+  assert(size(t6) == 10)
+  assert(height(t6) == 4)
+  assert(isBlack(t6) == true)
+  println(traverse(t6)) // Should print 1 6 8 11 13 15 17 22 25 27 None
+  assert(isBalanced(t6) == true)
+
+  val t7 = makeTree(List(5,3,4,1,2))
+  assert(size(t7) == 5)
+  assert(height(t7) == 3)
+  assert(isBlack(t7) == true)
+  println(traverse(t7)) // Should print 1 2 3 4 5 and None (leaf)
+  assert(isBalanced(t7) == true)
 
 }
 

@@ -81,6 +81,23 @@ object RedBlackTree extends App {
     }
   }
 
+  def traverseCheck(t: Tree): Any = {
+    def traverseCheckHelper(t: Tree, col: Color): Any = {
+      t match {
+        case Empty() => None
+        case Node(c, l, r, k) =>
+          if (col == Red() && c == Red()) {
+            Node(c, l, r, k)
+          }
+          else {
+            traverseCheckHelper(l, c)
+            traverseCheckHelper(r, c)
+          }
+      }
+    }
+    traverseCheckHelper(t,Black())
+  }
+
   def turnBlack(t: Tree): Tree = {
     // Turn a tree black
     t match {
@@ -137,9 +154,8 @@ object RedBlackTree extends App {
     }
   }
 
-  // TEST CASES
-  // ***********************
-  
+  // TESTS
+
   // isBlack() and turnBlack() Tests
   val testRed = Node(Red(),testBlack,Empty(),5)
   val testBlack = Node(Black(),Empty(),Empty(),2)
@@ -154,6 +170,7 @@ object RedBlackTree extends App {
   assert(isBlack(t1) == true)
   println(traverse(t1)) // Should print 1 2 3 4 5 and None (leaf)
   assert(isBalanced(t1) == true)
+  assert(traverseCheck(t1) == None)
 
   // Test if it works when inserted out of order
   val t2 = insert(2,insert(5,insert(3,insert(4,insert(1,Empty())))))
@@ -162,6 +179,7 @@ object RedBlackTree extends App {
   assert(isBlack(t2) == true)
   println(traverse(t2)) // Should print 1 2 3 4 5 None
   assert(isBalanced(t2) == true)
+  assert(traverseCheck(t2) == None)
 
   // More tests
   val t3 = insert(13,insert(8,insert(1,insert(6,insert(11,insert(17,insert(27,insert(22,insert(25,insert(15,Empty()))))))))))
@@ -170,6 +188,7 @@ object RedBlackTree extends App {
   assert(isBlack(t3) == true)
   println(traverse(t3)) // Should print 1 6 8 11 13 15 17 22 25 27 None
   assert(isBalanced(t3) == true)
+  assert(traverseCheck(t3) == None)
 
   val t4 = insert(10,insert(7,insert(3,insert(12,insert(17,insert(14,insert(26,insert(38,insert(30,insert(41,insert(47,insert(39,insert(35,insert(36,insert(28,insert(15,insert(16,insert(21,insert(23,insert(19,insert(20,Empty())))))))))))))))))))))
   assert(size(t4) == 21)
@@ -177,6 +196,7 @@ object RedBlackTree extends App {
   assert(isBlack(t4) == true)
   println(traverse(t4)) // Should print 3 7 10 12 14 15 16 17 19 20 21 23 26 28 30 35 36 38 39 41 47 None
   assert(isBalanced(t4) == true)
+  assert(traverseCheck(t4) == None)
 
   val t5 = makeTree(List(10,7,3,15,12,14,20,19,26,28,35,41,39,47,16,30,23,21,38,36,17))
   assert(size(t5) == 21)
@@ -184,6 +204,7 @@ object RedBlackTree extends App {
   assert(isBlack(t5) == true)
   println(traverse(t5)) // Should print 3 7 10 12 14 15 16 17 19 20 21 23 26 28 30 35 36 38 39 41 47 None
   assert(isBalanced(t5) == true)
+  assert(traverseCheck(t5) == None)
 
   val t6 = makeTree(List(1,11,15,13,6,8,27,17,25,22))
   assert(size(t6) == 10)
@@ -191,6 +212,7 @@ object RedBlackTree extends App {
   assert(isBlack(t6) == true)
   println(traverse(t6)) // Should print 1 6 8 11 13 15 17 22 25 27 None
   assert(isBalanced(t6) == true)
+  assert(traverseCheck(t6) == None)
 
   val t7 = makeTree(List(5,3,4,1,2))
   assert(size(t7) == 5)
@@ -198,6 +220,7 @@ object RedBlackTree extends App {
   assert(isBlack(t7) == true)
   println(traverse(t7)) // Should print 1 2 3 4 5 and None (leaf)
   assert(isBalanced(t7) == true)
+  assert(traverseCheck(t7) == None)
 
 }
 

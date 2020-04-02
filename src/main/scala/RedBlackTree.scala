@@ -36,6 +36,11 @@ object RedBlackTree extends App {
     case _ => false
   }
 
+  def isRed(t: Tree): Boolean = t match {
+    case Node(Red(),l,r,k) => true
+    case _ => false
+  }
+
   // NEW ADDITIONS
   def makeTree(lst: List[Int]): Tree = {
     // Takes a list of Int and makes a RB tree consisting of all the values in the list
@@ -82,20 +87,21 @@ object RedBlackTree extends App {
   }
 
   def traverseCheck(t: Tree): Any = {
-    def traverseCheckHelper(t: Tree, col: Color): Any = {
+    def traverseCheckHelper(t: Tree): Any = {
       t match {
         case Empty() => None
         case Node(c, l, r, k) =>
-          if (col == Red() && c == Red()) {
+          if ((c == Red() && !isBlack(l)) || (c == Red() && !isBlack(r))) {
+            // If a red Node has adjacent red Nodes
             Node(c, l, r, k)
           }
           else {
-            traverseCheckHelper(l, c)
-            traverseCheckHelper(r, c)
+            traverseCheckHelper(l)
+            traverseCheckHelper(r)
           }
       }
     }
-    traverseCheckHelper(t,Black())
+    traverseCheckHelper(t)
   }
 
   def turnBlack(t: Tree): Tree = {
